@@ -52,7 +52,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
-        // @ts-expect-error custom field
         token.username = user.username;
       }
       return token;
@@ -60,7 +59,6 @@ export const authOptions: NextAuthOptions = {
     async session({ session, token }) {
       if (session.user && token) {
         session.user.id = token.id as string;
-        // @ts-expect-error custom field
         session.user.username = token.username as string;
       }
       return session;
