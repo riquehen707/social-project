@@ -13,9 +13,10 @@ export default async function MessagesPage() {
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
   const users = await prisma.user.findMany({
-    where: { NOT: { id: session.user.id } },
+    where: { NOT: { id: user.id } },
     orderBy: { createdAt: "desc" },
     select: { id: true, username: true, name: true, image: true },
     take: 20,
@@ -23,9 +24,9 @@ export default async function MessagesPage() {
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface chat-surface">
           <div className="panel-card">
             <div className="section-kicker">Mensagens</div>

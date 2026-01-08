@@ -20,6 +20,7 @@ export default async function DirectMessagePage({ params }: PageProps) {
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
   const recipient = await prisma.user.findUnique({
     where: { username },
@@ -30,14 +31,14 @@ export default async function DirectMessagePage({ params }: PageProps) {
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface chat-surface">
           <DirectChat
             recipientId={recipient.id}
             recipientName={recipient.name}
-            currentUserId={session.user.id}
+            currentUserId={user.id}
           />
         </main>
       </div>

@@ -31,18 +31,19 @@ export default async function ProfilePage({
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
   if (!handle) {
     notFound();
   }
 
-  const data = await getProfileWithThreads(handle, session.user.id);
+  const data = await getProfileWithThreads(handle, user.id);
   if (!data) notFound();
 
   const { profile, threads } = data;
   const featuredThread = threads[0];
   const interests = profile.interests?.filter(Boolean).slice(0, 8) ?? [];
-  const isOwner = profile.id === session.user.id;
+  const isOwner = profile.id === user.id;
   const latestPosts = await prisma.post.findMany({
     where: { authorId: profile.id, published: true },
     orderBy: { publishedAt: "desc" },
@@ -69,9 +70,9 @@ export default async function ProfilePage({
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface profile-surface">
           <div className="profile-hero">
             <div className="profile-hero__bg" />
@@ -146,8 +147,8 @@ export default async function ProfilePage({
             {isOwner && (
               <section className="profile-section">
                 <ThreadComposerLauncher
-                  userImage={session.user.image}
-                  username={session.user.username}
+                  userImage={user.image}
+                  username={user.username}
                 />
               </section>
             )}
@@ -365,16 +366,16 @@ export default async function ProfilePage({
                   <ThreadCard
                     key={thread.id}
                     thread={thread}
-                    viewerId={session.user.id}
-                    viewerUsername={session.user.username}
-                    viewerImage={session.user.image}
+                    viewerId={user.id}
+                    viewerUsername={user.username}
+                    viewerImage={user.image}
                   />
                 ))
               )}
             </section>
           </div>
         </main>
-        <RightPanel currentUserId={session.user.id} />
+        <RightPanel currentUserId={user.id} />
       </div>
     </>
   );

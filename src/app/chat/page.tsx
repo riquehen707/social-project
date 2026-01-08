@@ -12,14 +12,15 @@ export default async function ChatPage() {
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface chat-surface">
-          <GlobalChat currentUserId={session.user.id} />
+          <GlobalChat currentUserId={user.id} />
         </main>
       </div>
     </>

@@ -19,8 +19,9 @@ export default async function HomePage({
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
-  const feed = await getFeed(session.user.id);
+  const feed = await getFeed(user.id);
   const tab = resolvedSearchParams?.tab;
   const title = tab === "discover" ? "Explorar" : "Início";
   const subtitle =
@@ -28,9 +29,9 @@ export default async function HomePage({
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface">
           <div className="feed-header">
             <h1>{title}</h1>
@@ -38,8 +39,8 @@ export default async function HomePage({
           </div>
 
           <ThreadComposerLauncher
-            userImage={session.user.image}
-            username={session.user.username}
+            userImage={user.image}
+            username={user.username}
           />
 
           {feed.length === 0 ? (
@@ -51,14 +52,14 @@ export default async function HomePage({
               <ThreadCard
                 key={thread.id}
                 thread={thread}
-                viewerId={session.user.id}
-                viewerUsername={session.user.username}
-                viewerImage={session.user.image}
+                viewerId={user.id}
+                viewerUsername={user.username}
+                viewerImage={user.image}
               />
             ))
           )}
         </main>
-        <RightPanel currentUserId={session.user.id} />
+        <RightPanel currentUserId={user.id} />
       </div>
     </>
   );

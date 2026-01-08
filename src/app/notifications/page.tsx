@@ -14,9 +14,10 @@ export default async function NotificationsPage() {
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
   const items = await prisma.notification.findMany({
-    where: { userId: session.user.id },
+    where: { userId: user.id },
     orderBy: { createdAt: "desc" },
     take: 50,
     include: {
@@ -26,15 +27,15 @@ export default async function NotificationsPage() {
   });
 
   await prisma.notification.updateMany({
-    where: { userId: session.user.id, readAt: null },
+    where: { userId: user.id, readAt: null },
     data: { readAt: new Date() },
   });
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface chat-surface">
           <div className="panel-card">
             <div className="section-kicker">Notificacoes</div>

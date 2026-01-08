@@ -22,31 +22,32 @@ export default async function ThreadPage({ params }: PageProps) {
   if (!session?.user) {
     redirect("/auth");
   }
+  const user = session.user!;
 
-  const thread = await getThreadWithReplies(id, session.user.id);
+  const thread = await getThreadWithReplies(id, user.id);
   if (!thread) notFound();
 
-  const isOwner = thread.authorId === session.user.id;
+  const isOwner = thread.authorId === user.id;
 
   return (
     <>
-      <Topbar username={session.user.username} />
+      <Topbar username={user.username} />
       <div className="app-shell">
-        <Sidebar username={session.user.username ?? undefined} />
+        <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface thread-surface">
           <div className="profile-section" style={{ margin: "1rem" }}>
             <ThreadCard
               thread={thread}
-              viewerId={session.user.id}
-              viewerUsername={session.user.username}
-              viewerImage={session.user.image}
+              viewerId={user.id}
+              viewerUsername={user.username}
+              viewerImage={user.image}
               showReplies
             />
             <div style={{ padding: "0 1rem 1rem" }}>
               <ThreadComposer
                 parentId={thread.id}
-                userImage={session.user.image}
-                username={session.user.username}
+                userImage={user.image}
+                username={user.username}
                 placeholder={
                   isOwner
                     ? "Responda e continue a conversa..."
