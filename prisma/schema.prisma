@@ -1,0 +1,183 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String   @id @default(cuid())
+  name      String
+  username  String   @unique
+  email     String   @unique
+  password  String?
+  bio       String?
+  link      String?
+  image     String?
+  interests String[] @default([])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  threads   Thread[]
+  likes     Like[]
+  following Follow[] @relation("following")
+  followers Follow[] @relation("followers")
+  accounts  Account[]
+  sessions  Session[]
+  posts     Post[]
+  globalMessages GlobalMessage[]
+  sentMessages DirectMessage[] @relation("directSender")
+  receivedMessages DirectMessage[] @relation("directRecipient")
+  notificationsReceived Notification[] @relation("notificationRecipient")
+  notificationsSent Notification[] @relation("notificationActor")
+}
+
+model Thread {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  authorId  String
+  parentId  String?
+
+  author  User   @relation(fields: [authorId], references: [id])
+  parent  Thread? @relation(name: "ThreadReplies", fields: [parentId], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  replies Thread[] @relation("ThreadReplies")
+  likes   Like[]
+  notifications Notification[]
+
+  @@index([authorId])
+  @@index([parentId])
+}
+
+model Post {
+  id          String    @id @default(cuid())
+  title       String
+  slug        String    @unique
+  excerpt     String?
+  content     Json
+  coverImage  String?
+  tags        String[]  @default([])
+  published   Boolean   @default(true)
+  publishedAt DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  authorId    String
+  seoTitle    String?
+  seoDescription String?
+
+  author      User      @relation(fields: [authorId], references: [id])
+
+  @@index([authorId])
+  @@index([publishedAt])
+}
+
+model GlobalMessage {
+  id        String   @id @default(cuid())
+  text      String
+  createdAt DateTime @default(now())
+  userId    String
+
+  user User @relation(fields: [userId], references: [id])
+
+  @@index([createdAt])
+  @@index([userId])
+}
+
+model DirectMessage {
+  id          String   @id @default(cuid())
+  text        String
+  createdAt   DateTime @default(now())
+  senderId    String
+  recipientId String
+
+  sender    User @relation("directSender", fields: [senderId], references: [id])
+  recipient User @relation("directRecipient", fields: [recipientId], references: [id])
+
+  @@index([createdAt])
+  @@index([senderId])
+  @@index([recipientId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  type      String
+  createdAt DateTime @default(now())
+  readAt    DateTime?
+  userId    String
+  actorId   String?
+  threadId  String?
+
+  user   User   @relation("notificationRecipient", fields: [userId], references: [id])
+  actor  User?  @relation("notificationActor", fields: [actorId], references: [id])
+  thread Thread? @relation(fields: [threadId], references: [id])
+
+  @@index([createdAt])
+  @@index([userId])
+  @@index([actorId])
+  @@index([threadId])
+}
+
+model Like {
+  id        String   @id @default(cuid())
+  userId    String
+  threadId  String
+  createdAt DateTime @default(now())
+
+  user   User   @relation(fields: [userId], references: [id])
+  thread Thread @relation(fields: [threadId], references: [id])
+
+  @@unique([userId, threadId])
+  @@index([threadId])
+}
+
+model Follow {
+  id           String   @id @default(cuid())
+  followerId   String
+  followingId  String
+  createdAt    DateTime @default(now())
+
+  follower  User @relation("following", fields: [followerId], references: [id])
+  following User @relation("followers", fields: [followingId], references: [id])
+
+  @@unique([followerId, followingId])
+}
+
+// NextAuth adapter models
+model Account {
+  id                       String  @id @default(cuid())
+  userId                   String
+  type                     String
+  provider                 String
+  providerAccountId        String
+  refresh_token            String?
+  access_token             String?
+  expires_at               Int?
+  token_type               String?
+  scope                    String?
+  id_token                 String?
+  session_state            String?
+  refresh_token_expires_in Int?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model VerificationToken {
+  identifier String
+  token      String   @unique
+  expires    DateTime
+
+  @@unique([identifier, token])
+}
