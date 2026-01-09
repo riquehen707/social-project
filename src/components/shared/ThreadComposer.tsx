@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
@@ -65,7 +65,7 @@ export default function ThreadComposer({
         onSubmitted?.();
         router.refresh();
       } catch (err) {
-        setError("Nao foi possivel publicar agora.");
+        setError("Não foi possível publicar agora.");
         console.error(err);
       }
     });
@@ -98,7 +98,7 @@ export default function ThreadComposer({
               <button type="button" className="tool-btn" title="Imagem">
                 <ImageIcon />
               </button>
-              <button type="button" className="tool-btn" title="Video">
+              <button type="button" className="tool-btn" title="Vídeo">
                 <VideoIcon />
               </button>
               <button type="button" className="tool-btn" title="Emoji">
@@ -114,7 +114,7 @@ export default function ThreadComposer({
           )}
           <div className="composer-actions">
             <span className="pill">
-              {errors.text ? errors.text.message : "Ate 1000 caracteres"}
+              {errors.text ? errors.text.message : "Até 1000 caracteres"}
             </span>
             <button className="btn btn-primary" disabled={pending} type="submit">
               {pending ? "Publicando..." : parentId ? "Responder" : "Publicar"}

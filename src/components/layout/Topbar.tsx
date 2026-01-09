@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   BellIcon,
@@ -20,7 +20,7 @@ export default function Topbar({ username }: { username?: string }) {
     <div className="topbar">
       <Link href="/" className="brand" style={{ gap: ".45rem" }}>
         <span className="brand-mark" />
-        <span>threads</span>
+        <span>social</span>
       </Link>
       <div style={{ display: "flex", gap: ".5rem" }}>
         {username && (
@@ -34,7 +34,11 @@ export default function Topbar({ username }: { username?: string }) {
         <Link className="btn btn-ghost" href="/messages" aria-label="Mensagens">
           <EnvelopeClosedIcon />
         </Link>
-        <Link className="btn btn-ghost" href="/notifications" aria-label="Notificacoes">
+        <Link
+          className="btn btn-ghost"
+          href="/notifications"
+          aria-label="Notificações"
+        >
           <BellIcon />
         </Link>
         <button className="btn btn-ghost" onClick={openComposer} type="button">

@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import prisma from "@/lib/prisma";
 import FollowButton from "../shared/FollowButton";
@@ -66,8 +66,8 @@ export default async function RightPanel({
       <div className="panel-card">
         <div className="panel-title">Atividade</div>
         <div className="muted">
-          Likes e respostas aparecem aqui em tempo real. Experimente curtir ou
-          responder uma thread para sentir o fluxo.
+          Curtidas e respostas aparecem aqui em tempo real. Experimente curtir ou
+          responder uma publicação para sentir o fluxo.
         </div>
       </div>
 

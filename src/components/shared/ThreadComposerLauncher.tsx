@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -34,7 +34,7 @@ export default function ThreadComposerLauncher({ userImage, username }: Props) {
           className="composer-launcher__input"
           onClick={() => setOpen(true)}
         >
-          O que ha de novo?
+          Escreva algo para sua rede
         </button>
         <button type="button" className="btn btn-primary" onClick={() => setOpen(true)}>
           Postar
@@ -48,7 +48,7 @@ export default function ThreadComposerLauncher({ userImage, username }: Props) {
               <button className="btn btn-ghost" onClick={() => setOpen(false)}>
                 Cancelar
               </button>
-              <div className="modal-title">Nova thread</div>
+              <div className="modal-title">Nova publicação</div>
               <div className="modal-spacer" />
             </div>
             <ThreadComposer

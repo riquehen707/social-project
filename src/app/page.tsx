@@ -1,4 +1,4 @@
-import { redirect } from "next/navigation";
+﻿import { redirect } from "next/navigation";
 import Sidebar from "@/components/layout/Sidebar";
 import RightPanel from "@/components/layout/RightPanel";
 import Topbar from "@/components/layout/Topbar";
@@ -25,7 +25,9 @@ export default async function HomePage({
   const tab = resolvedSearchParams?.tab;
   const title = tab === "discover" ? "Explorar" : "Início";
   const subtitle =
-    tab === "discover" ? "Descubra perfis e threads em alta" : "Threads em tempo real";
+    tab === "discover"
+      ? "Descubra perfis e publicações em alta"
+      : "Publicações em tempo real";
 
   return (
     <>
@@ -38,14 +40,13 @@ export default async function HomePage({
             <span className="pill">{subtitle}</span>
           </div>
 
-          <ThreadComposerLauncher
-            userImage={user.image}
-            username={user.username}
-          />
+          <ThreadComposerLauncher userImage={user.image} username={user.username} />
 
           {feed.length === 0 ? (
             <div style={{ padding: "1.5rem" }}>
-              <div className="muted">Ainda não há threads. Publique a primeira!</div>
+              <div className="muted">
+                Ainda não há publicações. Publique a primeira!
+              </div>
             </div>
           ) : (
             feed.map((thread) => (

@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import Sidebar from "@/components/layout/Sidebar";
 import Topbar from "@/components/layout/Topbar";
@@ -38,24 +38,24 @@ export default async function NotificationsPage() {
         <Sidebar username={user.username ?? undefined} />
         <main className="feed-surface chat-surface">
           <div className="panel-card">
-            <div className="section-kicker">Notificacoes</div>
+            <div className="section-kicker">Notificações</div>
             <h1 className="section-title">Atividade</h1>
             <div className="notifications-list">
               {items.length === 0 && (
-                <div className="muted">Nenhuma notificacao ainda.</div>
+                <div className="muted">Nenhuma notificação ainda.</div>
               )}
               {items.map((item) => {
-                const actor = item.actor?.name || "Alguem";
+                const actor = item.actor?.name || "Alguém";
                 const when = relativeTime(item.createdAt);
                 let text = "";
                 if (item.type === "follow") {
-                  text = `${actor} comecou a seguir voce.`;
+                  text = `${actor} começou a seguir você.`;
                 } else if (item.type === "like") {
-                  text = `${actor} curtiu sua thread.`;
+                  text = `${actor} curtiu sua publicação.`;
                 } else if (item.type === "reply") {
-                  text = `${actor} respondeu sua thread.`;
+                  text = `${actor} respondeu sua publicação.`;
                 } else {
-                  text = `${actor} enviou uma atualizacao.`;
+                  text = `${actor} enviou uma atualização.`;
                 }
 
                 return (

@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import {
   BellIcon,
@@ -18,13 +18,18 @@ const navItems = (username?: string) => [
   { label: "Explorar", href: "/?tab=discover", icon: <MagnifyingGlassIcon /> },
   { label: "Chat", href: "/chat", icon: <ChatBubbleIcon /> },
   { label: "Mensagens", href: "/messages", icon: <EnvelopeClosedIcon /> },
-  { label: "Notificacoes", href: "/notifications", icon: <BellIcon /> },
+  { label: "Notificações", href: "/notifications", icon: <BellIcon /> },
   {
     label: "Perfil",
     href: username ? `/profile/${username}` : "/auth",
     icon: <PersonIcon />,
   },
-  { label: "Nova thread", href: "#composer", icon: <PlusCircledIcon />, action: "compose" },
+  {
+    label: "Nova publicação",
+    href: "#composer",
+    icon: <PlusCircledIcon />,
+    action: "compose",
+  },
 ];
 
 export default function Sidebar({ username }: { username?: string }) {
@@ -41,7 +46,7 @@ export default function Sidebar({ username }: { username?: string }) {
     <aside className="sidebar">
       <div className="brand">
         <span className="brand-mark" />
-        <span>threads</span>
+        <span>social</span>
       </div>
 
       <nav className="nav">

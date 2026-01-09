@@ -1,4 +1,4 @@
-export const dynamic = "force-dynamic";
+﻿export const dynamic = "force-dynamic";
 export const revalidate = 0;
 
 import { notFound, redirect } from "next/navigation";
@@ -25,7 +25,7 @@ export default async function ProfilePage({
 }) {
   const { handle } = await params;
   const resolvedSearchParams = searchParams ? await searchParams : undefined;
-  const tab = resolvedSearchParams?.tab ?? "threads";
+  const tab = resolvedSearchParams?.tab ?? "posts";
   const session = await getServerSession(authOptions);
 
   if (!session?.user) {
@@ -64,7 +64,7 @@ export default async function ProfilePage({
   const threadList =
     tab === "replies"
       ? threads.filter((thread) => !!thread.parentId)
-      : tab === "threads"
+      : tab === "posts"
         ? threads.filter((thread) => !thread.parentId)
         : threads;
 
@@ -79,7 +79,7 @@ export default async function ProfilePage({
             <div className="profile-hero__content">
               <div className="profile-hero__header">
                 <div className="profile-hero__badge-row">
-                  <span className="chip chip-strong">Coluna · Brasil</span>
+                  <span className="chip chip-strong">Coluna Brasil</span>
                   {profile.link && (
                     <a
                       href={profile.link}
@@ -105,12 +105,12 @@ export default async function ProfilePage({
                     <h1 className="profile-title">{profile.name}</h1>
                     <div className="profile-subtitle">
                       <span>@{profile.username}</span>
-                      <span>·</span>
+                      <span>•</span>
                       <span>
                         {profile.followerCount} seguidor
                         {profile.followerCount === 1 ? "" : "es"}
                       </span>
-                      <span>·</span>
+                      <span>•</span>
                       <span>{profile.followingCount} seguindo</span>
                     </div>
                     {profile.bio && <p className="profile-bio">{profile.bio}</p>}
@@ -146,10 +146,7 @@ export default async function ProfilePage({
           <div className="profile-body">
             {isOwner && (
               <section className="profile-section">
-                <ThreadComposerLauncher
-                  userImage={user.image}
-                  username={user.username}
-                />
+                <ThreadComposerLauncher userImage={user.image} username={user.username} />
               </section>
             )}
 
@@ -160,7 +157,7 @@ export default async function ProfilePage({
                     <div className="section-kicker">Interesses</div>
                     <h2 className="section-title">Escolha seus temas</h2>
                     <p className="section-subtitle">
-                      Isso ajuda a personalizar o feed para voce
+                      Isso ajuda a personalizar o feed para você
                     </p>
                   </div>
                 </div>
@@ -170,10 +167,10 @@ export default async function ProfilePage({
 
             <div className="profile-tabs">
               <Link
-                className={`profile-tab ${tab === "threads" ? "active" : ""}`}
-                href={`/profile/${profile.username}?tab=threads`}
+                className={`profile-tab ${tab === "posts" ? "active" : ""}`}
+                href={`/profile/${profile.username}?tab=posts`}
               >
-                Threads
+                Publicações
               </Link>
               <Link
                 className={`profile-tab ${tab === "replies" ? "active" : ""}`}
@@ -185,7 +182,7 @@ export default async function ProfilePage({
                 className={`profile-tab ${tab === "media" ? "active" : ""}`}
                 href={`/profile/${profile.username}?tab=media`}
               >
-                Midia
+                Mídia
               </Link>
               <Link
                 className={`profile-tab ${tab === "reposts" ? "active" : ""}`}
@@ -200,8 +197,8 @@ export default async function ProfilePage({
                 <div>
                   <div className="section-kicker">Em destaque</div>
                   <h2 className="section-title">
-                  {latestPost ? "Último artigo" : "Última publicação"}
-                </h2>
+                    {latestPost ? "Último artigo" : "Última publicação"}
+                  </h2>
                   <p className="section-subtitle">
                     Destaque o conteúdo mais recente sem poluir o perfil
                   </p>
@@ -241,9 +238,7 @@ export default async function ProfilePage({
               ) : featuredThread ? (
                 <div className="featured-card">
                   <div className="featured-meta">
-                    <span className="pill">
-                      {relativeTime(featuredThread.createdAt)}
-                    </span>
+                    <span className="pill">{relativeTime(featuredThread.createdAt)}</span>
                     <span className="pill">
                       {featuredThread._count.replies} resposta
                       {featuredThread._count.replies === 1 ? "" : "s"}
@@ -333,25 +328,25 @@ export default async function ProfilePage({
                     {tab === "replies"
                       ? "Respostas"
                       : tab === "media"
-                        ? "Midia"
+                        ? "Mídia"
                         : tab === "reposts"
                           ? "Reposts"
-                          : "Threads"}
+                          : "Publicações"}
                   </h2>
                   <p className="section-subtitle">
                     {tab === "replies"
                       ? "Respostas feitas pelo perfil"
                       : tab === "media"
-                        ? "Conteudos com midia"
+                        ? "Conteúdos com mídia"
                         : tab === "reposts"
-                          ? "Conteudos compartilhados"
-                          : "Threads em ordem cronologica"}
+                          ? "Conteúdos compartilhados"
+                          : "Publicações em ordem cronológica"}
                   </p>
                 </div>
               </div>
               {tab === "media" ? (
                 <div className="panel-card" style={{ marginTop: "0.5rem" }}>
-                  <div className="muted">Sem midia por enquanto.</div>
+                  <div className="muted">Sem mídia por enquanto.</div>
                 </div>
               ) : tab === "reposts" ? (
                 <div className="panel-card" style={{ marginTop: "0.5rem" }}>

@@ -1,4 +1,4 @@
-import Image from "next/image";
+﻿import Image from "next/image";
 import Link from "next/link";
 import { relativeTime } from "@/lib/dates";
 import { ThreadWithExtras } from "@/types/thread";
@@ -103,9 +103,7 @@ export default function ThreadCard({
                     >
                       {reply.author.name}
                     </Link>
-                    <span className="thread-username">
-                      @{reply.author.username}
-                    </span>
+                    <span className="thread-username">@{reply.author.username}</span>
                     <Link className="thread-time" href={`/thread/${reply.id}`}>
                       • {relativeTime(reply.createdAt)}
                     </Link>

@@ -1,9 +1,9 @@
-export default function NotFound() {
+﻿export default function NotFound() {
   return (
     <div className="auth-page">
       <div className="brand" style={{ marginBottom: "1rem" }}>
         <span className="brand-mark" />
-        <span>threads</span>
+        <span>social</span>
       </div>
       <h1 style={{ margin: 0 }}>Não encontrado</h1>
       <p className="muted">

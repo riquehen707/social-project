@@ -171,7 +171,7 @@ export default function ArticleBuilder({ authorName }: Props) {
               <span className="muted">Titulo SEO (opcional)</span>
               <input
                 className="builder-input"
-                placeholder="Titulo para Google / Threads"
+                placeholder="Titulo para Google e compartilhamentos"
                 value={seoTitle}
                 onChange={(e) => setSeoTitle(e.target.value)}
               />

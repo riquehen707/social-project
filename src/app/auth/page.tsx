@@ -1,4 +1,4 @@
-import Link from "next/link";
+﻿import Link from "next/link";
 import { redirect } from "next/navigation";
 import AuthForms from "@/components/shared/AuthForms";
 import { authOptions } from "@/lib/authOptions";
@@ -14,14 +14,14 @@ export default async function AuthPage() {
     <div className="auth-page">
       <div className="brand" style={{ marginBottom: "1rem" }}>
         <span className="brand-mark" />
-        <span>threads</span>
+        <span>social</span>
       </div>
       <h1 style={{ margin: "0 0 .35rem", letterSpacing: "-0.02em" }}>
         Entre para a conversa
       </h1>
       <p className="muted" style={{ margin: "0 0 1rem" }}>
-        Visual e fluxos idênticos ao Threads: feed em tempo real, respostas e
-        seguir perfis.
+        Uma rede feita para conversas rápidas, respostas em tempo real e
+        descoberta de pessoas.
       </p>
       <AuthForms />
       <p className="muted" style={{ marginTop: "1rem" }}>

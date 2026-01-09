@@ -1,4 +1,4 @@
-"use client";
+﻿"use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import axios from "axios";
@@ -107,17 +107,28 @@ export default function AuthForms() {
       </div>
 
       {mode === "login" ? (
-        <form className="panel-card" onSubmit={onLogin} style={{ display: "grid", gap: "0.8rem" }}>
+        <form
+          className="panel-card"
+          onSubmit={onLogin}
+          style={{ display: "grid", gap: "0.8rem" }}
+        >
           <div className="field">
             <label>Usuário ou e-mail</label>
-            <input placeholder="ana ou ana@threads.com" {...registerLogin("identifier")} />
+            <input
+              placeholder="ana ou ana@exemplo.com"
+              {...registerLogin("identifier")}
+            />
             {loginErrors.identifier && (
               <div className="error">{loginErrors.identifier.message}</div>
             )}
           </div>
           <div className="field">
             <label>Senha</label>
-            <input type="password" placeholder="••••••••" {...registerLogin("password")} />
+            <input
+              type="password"
+              placeholder="********"
+              {...registerLogin("password")}
+            />
             {loginErrors.password && (
               <div className="error">{loginErrors.password.message}</div>
             )}
@@ -136,7 +147,9 @@ export default function AuthForms() {
           <div className="field">
             <label>Nome</label>
             <input placeholder="Seu nome" {...registerRegister("name")} />
-            {registerErrors.name && <div className="error">{registerErrors.name.message}</div>}
+            {registerErrors.name && (
+              <div className="error">{registerErrors.name.message}</div>
+            )}
           </div>
           <div className="field">
             <label>Usuário</label>
@@ -147,19 +160,29 @@ export default function AuthForms() {
           </div>
           <div className="field">
             <label>E-mail</label>
-            <input placeholder="voce@email.com" {...registerRegister("email")} />
-            {registerErrors.email && <div className="error">{registerErrors.email.message}</div>}
+            <input placeholder="voce@exemplo.com" {...registerRegister("email")} />
+            {registerErrors.email && (
+              <div className="error">{registerErrors.email.message}</div>
+            )}
           </div>
           <div className="field">
             <label>Senha</label>
-            <input type="password" placeholder="••••••••" {...registerRegister("password")} />
+            <input
+              type="password"
+              placeholder="********"
+              {...registerRegister("password")}
+            />
             {registerErrors.password && (
               <div className="error">{registerErrors.password.message}</div>
             )}
           </div>
           {error && <div className="error">{error}</div>}
           {message && <div className="success">{message}</div>}
-          <button className="btn btn-primary" disabled={registerPending} type="submit">
+          <button
+            className="btn btn-primary"
+            disabled={registerPending}
+            type="submit"
+          >
             {registerPending ? "Criando..." : "Criar conta"}
           </button>
         </form>

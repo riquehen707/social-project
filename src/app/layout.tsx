@@ -12,8 +12,8 @@ const grotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
-  title: "Threads Clone",
-  description: "Rede social minimalista inspirada no Threads",
+  title: "Social",
+  description: "Rede social focada em conversas, perfis e interesses.",
 };
 
 export default async function RootLayout({
