@@ -16,8 +16,13 @@ import { signOut } from "next-auth/react";
 const navItems = (username?: string) => [
   { label: "Início", href: "/", icon: <HomeIcon /> },
   { label: "Explorar", href: "/?tab=discover", icon: <MagnifyingGlassIcon /> },
-  { label: "Chat", href: "/chat", icon: <ChatBubbleIcon /> },
-  { label: "Mensagens", href: "/messages", icon: <EnvelopeClosedIcon /> },
+  { label: "Chat", href: "/chat", icon: <ChatBubbleIcon />, mobileHidden: true },
+  {
+    label: "Mensagens",
+    href: "/messages",
+    icon: <EnvelopeClosedIcon />,
+    mobileHidden: true,
+  },
   { label: "Notificações", href: "/notifications", icon: <BellIcon /> },
   {
     label: "Perfil",
@@ -61,7 +66,9 @@ export default function Sidebar({ username }: { username?: string }) {
                 key={item.label}
                 type="button"
                 className="nav-button"
+                data-action={item.action}
                 onClick={openComposer}
+                data-mobile={item.mobileHidden ? "hide" : "show"}
               >
                 {item.icon}
                 <span className="nav-label">{item.label}</span>
@@ -74,6 +81,8 @@ export default function Sidebar({ username }: { username?: string }) {
               key={item.href}
               href={item.href}
               className={`nav-button ${active ? "active" : ""}`}
+              data-action={item.action}
+              data-mobile={item.mobileHidden ? "hide" : "show"}
             >
               {item.icon}
               <span className="nav-label">{item.label}</span>

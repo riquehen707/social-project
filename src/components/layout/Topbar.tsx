@@ -22,30 +22,38 @@ export default function Topbar({ username }: { username?: string }) {
         <span className="brand-mark" />
         <span>social</span>
       </Link>
-      <div style={{ display: "flex", gap: ".5rem" }}>
+      <div className="topbar-actions">
         {username && (
-          <Link className="btn btn-ghost" href={`/profile/${username}`}>
+          <Link className="btn btn-ghost topbar-user" href={`/profile/${username}`}>
             @{username}
           </Link>
         )}
-        <Link className="btn btn-ghost" href="/chat" aria-label="Chat">
+        <Link className="btn btn-ghost topbar-icon" href="/chat" aria-label="Chat">
           <ChatBubbleIcon />
         </Link>
-        <Link className="btn btn-ghost" href="/messages" aria-label="Mensagens">
+        <Link
+          className="btn btn-ghost topbar-icon"
+          href="/messages"
+          aria-label="Mensagens"
+        >
           <EnvelopeClosedIcon />
         </Link>
         <Link
-          className="btn btn-ghost"
+          className="btn btn-ghost topbar-icon"
           href="/notifications"
           aria-label="Notificações"
         >
           <BellIcon />
         </Link>
-        <button className="btn btn-ghost" onClick={openComposer} type="button">
+        <button
+          className="btn btn-ghost topbar-compose"
+          onClick={openComposer}
+          type="button"
+        >
           <Pencil2Icon />
-          Postar
+          <span className="topbar-label">Postar</span>
         </button>
-        <button className="btn" onClick={() => signOut({ callbackUrl: "/auth" })}>
+        <button className="btn topbar-signout" onClick={() => signOut({ callbackUrl: "/auth" })}>
           Sair
         </button>
       </div>
