@@ -45,7 +45,7 @@ export default function ThreadCard({
           </Link>
           <span className="thread-username">@{thread.author.username}</span>
           <Link className="thread-time" href={`/thread/${thread.id}`}>
-            • {relativeTime(thread.createdAt)}
+            - {relativeTime(thread.createdAt)}
           </Link>
           {!isOwner && (
             <FollowButton
@@ -71,7 +71,7 @@ export default function ThreadCard({
             initialCount={thread._count.likes}
           />
           <span className="action">
-            {thread._count.replies} resposta{thread._count.replies === 1 ? "" : "s"}
+            {thread._count.replies} resposta{thread._count.replies === 1 - "" : "s"}
           </span>
           <ReplyButton
             threadId={thread.id}
@@ -105,7 +105,7 @@ export default function ThreadCard({
                     </Link>
                     <span className="thread-username">@{reply.author.username}</span>
                     <Link className="thread-time" href={`/thread/${reply.id}`}>
-                      • {relativeTime(reply.createdAt)}
+                      - {relativeTime(reply.createdAt)}
                     </Link>
                   </div>
                   <div className="thread-body">{reply.text}</div>
