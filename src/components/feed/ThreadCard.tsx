@@ -71,7 +71,7 @@ export default function ThreadCard({
             initialCount={thread._count.likes}
           />
           <span className="action">
-            {thread._count.replies} resposta{thread._count.replies === 1 - "" : "s"}
+            {thread._count.replies} resposta{thread._count.replies === 1 ? "" : "s"}
           </span>
           <ReplyButton
             threadId={thread.id}

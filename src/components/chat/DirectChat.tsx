@@ -76,7 +76,7 @@ export default function DirectChat({
         {messages.map((msg) => {
           const mine = msg.sender.id === currentUserId;
           return (
-            <div key={msg.id} className={`chat-message ${mine - "mine" : ""}`}>
+            <div key={msg.id} className={`chat-message ${mine ? "mine" : ""}`}>
               <div className="chat-avatar">
                 <Image
                   src={msg.sender.image || `https://avatar.vercel.sh/${msg.sender.username}`}

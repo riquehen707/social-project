@@ -63,9 +63,7 @@ export default function GlobalChat({ currentUserId }: Props) {
         {messages.map((msg) => (
           <div
             key={msg.id}
-            className={`chat-message ${
-              msg.user.id === currentUserId - "mine" : ""
-            }`}
+            className={`chat-message ${msg.user.id === currentUserId ? "mine" : ""}`}
           >
             <div className="chat-avatar">
               <Image
