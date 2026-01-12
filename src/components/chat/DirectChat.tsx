@@ -89,7 +89,7 @@ export default function DirectChat({
                 <div className="chat-meta">
                   <span className="thread-name">{msg.sender.name}</span>
                   <span className="muted">@{msg.sender.username}</span>
-                  <span className="muted">· {relativeTime(msg.createdAt)}</span>
+                  <span className="muted">• {relativeTime(msg.createdAt)}</span>
                 </div>
                 <div>{msg.text}</div>
               </div>

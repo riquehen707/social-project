@@ -94,6 +94,11 @@ button {
     align-items: center;
     justify-content: center;
     gap: 0;
+    background: rgba(17, 17, 22, 0.9);
+    backdrop-filter: blur(16px);
+    border: 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 -14px 30px rgba(0, 0, 0, 0.45);
     z-index: 20;
   }
 
@@ -119,6 +124,16 @@ button {
     padding: 0.45rem 0.5rem;
     border-radius: 12px;
     justify-content: center;
+    min-width: 56px;
+    min-height: 48px;
+  }
+
+  .nav-button.active::after {
+    content: "";
+    width: 4px;
+    height: 4px;
+    border-radius: 999px;
+    background: var(--accent);
   }
 
   .nav-button[data-mobile="hide"] {
@@ -130,6 +145,20 @@ button {
     color: #0b0b0f;
     border-color: transparent;
     box-shadow: 0 12px 25px rgba(255, 255, 255, 0.12);
+    width: 56px;
+    height: 56px;
+    border-radius: 16px;
+    transform: translateY(-12px);
+  }
+
+  .nav-button svg {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-button[data-action="compose"] svg {
+    width: 24px;
+    height: 24px;
   }
 }
 
@@ -192,6 +221,7 @@ button {
   transition: all 0.15s ease;
   width: 100%;
   text-align: left;
+  min-height: 44px;
 }
 
 .nav-button:hover,
@@ -1243,10 +1273,16 @@ button {
   .topbar {
     padding: 0.65rem 0.75rem;
     border-radius: 12px;
+    background: rgba(17, 17, 22, 0.92);
+    backdrop-filter: blur(12px);
   }
 
   .topbar-actions {
     gap: 0.35rem;
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
   }
 
   .topbar .btn {
@@ -1256,6 +1292,19 @@ button {
   .topbar-user,
   .topbar-label {
     display: none;
+  }
+
+  .topbar .brand span:last-child {
+    display: none;
+  }
+
+  .topbar-actions::-webkit-scrollbar {
+    display: none;
+  }
+
+  .topbar-icon {
+    min-width: 40px;
+    min-height: 40px;
   }
 
   .topbar-compose {
@@ -1275,6 +1324,10 @@ button {
 
   .feed-surface {
     border-radius: 14px;
+  }
+
+  .feed-header h1 {
+    font-size: 1rem;
   }
 
   .composer,
@@ -1314,6 +1367,15 @@ button {
   .thread-head {
     flex-wrap: wrap;
     row-gap: 0.2rem;
+  }
+
+  .thread-name {
+    font-size: 0.95rem;
+  }
+
+  .thread-username,
+  .thread-time {
+    font-size: 0.8rem;
   }
 
   .thread-time {
@@ -1386,6 +1448,15 @@ button {
     border-radius: 16px 16px 0 0;
     max-height: 90vh;
     overflow: auto;
+  }
+
+  .chat-input {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .chat-input .btn {
+    width: 100%;
   }
 
   .profile-body {

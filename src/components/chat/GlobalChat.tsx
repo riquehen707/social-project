@@ -79,7 +79,7 @@ export default function GlobalChat({ currentUserId }: Props) {
               <div className="chat-meta">
                 <span className="thread-name">{msg.user.name}</span>
                 <span className="muted">@{msg.user.username}</span>
-                <span className="muted">· {relativeTime(msg.createdAt)}</span>
+                <span className="muted">• {relativeTime(msg.createdAt)}</span>
               </div>
               <div>{msg.text}</div>
             </div>
