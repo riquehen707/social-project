@@ -1,4 +1,5 @@
 import prisma from "@/lib/prisma";
+import { ensureThreadMediaColumns } from "@/lib/ensureThreadMedia";
 import { ProfileUser, ThreadWithExtras } from "@/types/thread";
 
 export async function getProfileWithThreads(
@@ -24,6 +25,7 @@ export async function getProfileWithThreads(
 
   if (!user) return null;
 
+  await ensureThreadMediaColumns();
   const threads = await prisma.thread.findMany({
     where: { authorId: user.id },
     orderBy: { createdAt: "desc" },

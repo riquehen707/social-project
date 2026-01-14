@@ -1,10 +1,12 @@
 import prisma from "@/lib/prisma";
+import { ensureThreadMediaColumns } from "@/lib/ensureThreadMedia";
 import { ThreadWithExtras } from "@/types/thread";
 
 export async function getThreadWithReplies(
   threadId: string,
   currentUserId?: string,
 ): Promise<ThreadWithExtras | null> {
+  await ensureThreadMediaColumns();
   const thread = await prisma.thread.findUnique({
     where: { id: threadId },
     include: {

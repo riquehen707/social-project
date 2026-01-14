@@ -3,6 +3,7 @@
 import { revalidatePath } from "next/cache";
 import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/authOptions";
+import { ensureThreadMediaColumns } from "@/lib/ensureThreadMedia";
 import prisma from "@/lib/prisma";
 
 export async function createThread({
@@ -21,6 +22,7 @@ export async function createThread({
     throw new Error("Não autorizado");
   }
 
+  await ensureThreadMediaColumns();
   const content = text.trim();
   const normalizedMediaUrl = mediaUrl?.trim() || null;
   const hasMedia = Boolean(normalizedMediaUrl);
