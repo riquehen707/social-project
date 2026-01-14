@@ -62,7 +62,13 @@ export default function ThreadCard({
           </div>
         )}
 
-        <div className="thread-body">{thread.text}</div>
+        {thread.text?.trim() && <div className="thread-body">{thread.text}</div>}
+        {thread.mediaUrl && (
+          <div className="thread-media">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
+            <img src={thread.mediaUrl} alt="Midia da publicacao" loading="lazy" />
+          </div>
+        )}
 
         <div className="thread-actions">
           <LikeButton
@@ -106,7 +112,19 @@ export default function ThreadCard({
                       - {relativeTime(reply.createdAt)}
                     </Link>
                   </div>
-                  <div className="thread-body">{reply.text}</div>
+                  {reply.text?.trim() && (
+                    <div className="thread-body">{reply.text}</div>
+                  )}
+                  {reply.mediaUrl && (
+                    <div className="thread-media">
+                      {/* eslint-disable-next-line @next/next/no-img-element */}
+                      <img
+                        src={reply.mediaUrl}
+                        alt="Midia da resposta"
+                        loading="lazy"
+                      />
+                    </div>
+                  )}
                   <div className="thread-actions">
                     <LikeButton
                       threadId={reply.id}

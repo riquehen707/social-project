@@ -8,9 +8,13 @@ import prisma from "@/lib/prisma";
 export async function createThread({
   text,
   parentId,
+  mediaUrl,
+  mediaType,
 }: {
   text: string;
   parentId?: string | null;
+  mediaUrl?: string | null;
+  mediaType?: string | null;
 }) {
   const session = await getServerSession(authOptions);
   if (!session?.user?.id) {
@@ -18,8 +22,10 @@ export async function createThread({
   }
 
   const content = text.trim();
-  if (!content) {
-    throw new Error("Escreva algo para publicar");
+  const normalizedMediaUrl = mediaUrl?.trim() || null;
+  const hasMedia = Boolean(normalizedMediaUrl);
+  if (!content && !hasMedia) {
+    throw new Error("Escreva algo ou adicione uma midia");
   }
 
   const parentThread = parentId
@@ -32,6 +38,8 @@ export async function createThread({
   await prisma.thread.create({
     data: {
       text: content,
+      mediaUrl: normalizedMediaUrl,
+      mediaType: normalizedMediaUrl ? mediaType ?? null : null,
       authorId: session.user.id,
       parentId: parentId ?? null,
     },

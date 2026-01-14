@@ -411,6 +411,10 @@ textarea:focus-visible {
   margin-top: 0.35rem;
 }
 
+.composer-file-input {
+  display: none;
+}
+
 .tool-btn {
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: transparent;
@@ -420,10 +424,66 @@ textarea:focus-visible {
   transition: all 0.2s ease;
 }
 
+.tool-btn.tool-btn-text {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  padding: 0.35rem 0.5rem;
+}
+
 .tool-btn:hover {
   color: var(--text);
   border-color: rgba(110, 231, 255, 0.5);
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
+}
+
+.composer-media {
+  margin-top: 0.5rem;
+  display: grid;
+  gap: 0.4rem;
+}
+
+.composer-media__preview {
+  position: relative;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--card-elevated);
+}
+
+.composer-media__preview img {
+  width: 100%;
+  display: block;
+  max-height: 280px;
+  object-fit: cover;
+}
+
+.composer-media__badge {
+  position: absolute;
+  top: 0.5rem;
+  left: 0.5rem;
+  background: rgba(17, 19, 26, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.45rem;
+  border-radius: 999px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+}
+
+.composer-media__actions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.composer-media__actions .muted {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .composer-tool-input {
@@ -641,6 +701,21 @@ textarea:focus-visible {
   word-break: break-word;
   margin: 0.2rem 0 0.3rem;
   font-size: 0.95rem;
+}
+
+.thread-media {
+  margin-top: 0.5rem;
+  border-radius: 14px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--card-strong);
+}
+
+.thread-media img {
+  width: 100%;
+  display: block;
+  max-height: 360px;
+  object-fit: cover;
 }
 
 .thread-actions {
@@ -1606,6 +1681,19 @@ textarea:focus-visible {
     flex-wrap: wrap;
   }
 
+  .composer-media__actions {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .composer-media__actions .btn {
+    width: 100%;
+  }
+
+  .composer-media__preview img {
+    max-height: 220px;
+  }
+
   .composer-tool-input {
     grid-template-columns: 1fr;
   }
@@ -1626,6 +1714,10 @@ textarea:focus-visible {
   .thread-username,
   .thread-time {
     font-size: 0.75rem;
+  }
+
+  .thread-media img {
+    max-height: 240px;
   }
 
   .thread-time {

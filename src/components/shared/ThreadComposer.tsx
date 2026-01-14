@@ -6,29 +6,34 @@ import {
   ImageIcon,
   Link2Icon,
   QuoteIcon,
-  VideoIcon,
 } from "@radix-ui/react-icons";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
-import { useRef, useState, useTransition } from "react";
+import { ChangeEvent, useEffect, useRef, useState, useTransition } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { createThread } from "@/actions/thread";
 
 const schema = z.object({
-  text: z.string().min(1, "Escreva algo").max(1000),
+  text: z.string().max(1000, "Maximo 1000 caracteres"),
 });
 
 type FormData = z.infer<typeof schema>;
-type ToolType = "image" | "video" | "emoji" | "link";
+type ToolType = "emoji" | "link";
 
 const toolPlaceholders: Record<Exclude<ToolType, "emoji">, string> = {
-  image: "URL da imagem",
-  video: "URL do video",
   link: "URL do link",
 };
 
 const emojiOptions = [":)", ":D", "<3", ":P", ";)", "XD"];
+const allowedMediaTypes = new Set([
+  "image/jpeg",
+  "image/png",
+  "image/webp",
+  "image/gif",
+  "image/heic",
+  "image/heif",
+]);
 
 type Props = {
   userImage?: string | null;
@@ -58,6 +63,10 @@ export default function ThreadComposer({
   const [error, setError] = useState<string | null>(null);
   const [activeTool, setActiveTool] = useState<ToolType | null>(null);
   const [toolValue, setToolValue] = useState("");
+  const [mediaFile, setMediaFile] = useState<File | null>(null);
+  const [mediaPreview, setMediaPreview] = useState<string | null>(null);
+  const [mediaType, setMediaType] = useState<"image" | "gif" | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
   const textAreaRef = useRef<HTMLTextAreaElement | null>(null);
   const {
     register,
@@ -72,9 +81,63 @@ export default function ThreadComposer({
 
   const { ref: textRef, ...textField } = register("text");
 
+  useEffect(() => {
+    return () => {
+      if (mediaPreview) {
+        URL.revokeObjectURL(mediaPreview);
+      }
+    };
+  }, [mediaPreview]);
+
   const closeTools = () => {
     setActiveTool(null);
     setToolValue("");
+  };
+
+  const clearMedia = () => {
+    if (mediaPreview) {
+      URL.revokeObjectURL(mediaPreview);
+    }
+    setMediaFile(null);
+    setMediaPreview(null);
+    setMediaType(null);
+    if (fileInputRef.current) {
+      fileInputRef.current.value = "";
+    }
+  };
+
+  const openFilePicker = (accept: string) => {
+    if (!fileInputRef.current) return;
+    fileInputRef.current.accept = accept;
+    fileInputRef.current.value = "";
+    setError(null);
+    closeTools();
+    fileInputRef.current.click();
+  };
+
+  const handleFileChange = (event: ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    if (!allowedMediaTypes.has(file.type)) {
+      setError("Tipo de arquivo invalido");
+      return;
+    }
+
+    if (file.size > 10 * 1024 * 1024) {
+      setError("Arquivo muito grande (max 10MB)");
+      return;
+    }
+
+    setError(null);
+    if (mediaPreview) {
+      URL.revokeObjectURL(mediaPreview);
+    }
+
+    const preview = URL.createObjectURL(file);
+    setMediaFile(file);
+    setMediaPreview(preview);
+    setMediaType(file.type === "image/gif" ? "gif" : "image");
   };
 
   const getSelection = () => {
@@ -124,28 +187,56 @@ export default function ThreadComposer({
     const trimmed = toolValue.trim();
     if (!trimmed) return;
     const { selection } = getSelection();
-    if (activeTool === "link") {
-      const snippet = selection ? `${selection} (${trimmed})` : trimmed;
-      insertAtCursor(snippet);
-    } else if (activeTool === "image") {
-      insertAtCursor(`img: ${trimmed}`);
-    } else if (activeTool === "video") {
-      insertAtCursor(`video: ${trimmed}`);
-    }
+    const snippet = selection ? `${selection} (${trimmed})` : trimmed;
+    insertAtCursor(snippet);
     closeTools();
+  };
+
+  const uploadMedia = async () => {
+    if (!mediaFile) return null;
+    const formData = new FormData();
+    formData.append("file", mediaFile);
+
+    const response = await fetch("/api/uploads", {
+      method: "POST",
+      body: formData,
+    });
+
+    if (!response.ok) {
+      const data = await response.json().catch(() => null);
+      throw new Error(data?.error || "Falha ao enviar a midia");
+    }
+
+    return response.json() as Promise<{ url: string; type: "image" | "gif" }>;
   };
 
   const onSubmit = handleSubmit((data) => {
     startTransition(async () => {
       try {
         setError(null);
-        await createThread({ text: data.text, parentId });
+        const trimmed = data.text.trim();
+        if (!trimmed && !mediaFile) {
+          setError("Escreva algo ou adicione uma midia");
+          return;
+        }
+
+        const uploadResult = mediaFile ? await uploadMedia() : null;
+
+        await createThread({
+          text: data.text,
+          parentId,
+          mediaUrl: uploadResult?.url ?? null,
+          mediaType: uploadResult?.type ?? mediaType ?? null,
+        });
         reset();
+        clearMedia();
         closeTools();
         onSubmitted?.();
         router.refresh();
       } catch (err) {
-        setError("Não foi possível publicar agora.");
+        setError(
+          err instanceof Error ? err.message : "Nao foi possivel publicar agora.",
+        );
         console.error(err);
       }
     });
@@ -177,6 +268,38 @@ export default function ThreadComposer({
             }}
             disabled={pending}
           />
+          <input
+            ref={fileInputRef}
+            type="file"
+            className="composer-file-input"
+            accept="image/*"
+            onChange={handleFileChange}
+            disabled={pending}
+          />
+          {mediaPreview && (
+            <div className="composer-media">
+              <div className="composer-media__preview">
+                {/* eslint-disable-next-line @next/next/no-img-element */}
+                <img src={mediaPreview} alt="Preview da midia" />
+                {mediaType === "gif" && (
+                  <span className="composer-media__badge">GIF</span>
+                )}
+              </div>
+              <div className="composer-media__actions">
+                <span className="muted">
+                  {mediaFile?.name ?? "midia selecionada"}
+                </span>
+                <button
+                  type="button"
+                  className="btn btn-ghost"
+                  onClick={clearMedia}
+                  disabled={pending}
+                >
+                  Remover
+                </button>
+              </div>
+            </div>
+          )}
           {showTools && (
             <>
               <div className="composer-tools">
@@ -184,19 +307,21 @@ export default function ThreadComposer({
                   type="button"
                   className="tool-btn"
                   title="Imagem"
-                  onClick={() => toggleTool("image")}
+                  aria-label="Imagem"
+                  onClick={() => openFilePicker("image/*")}
                   disabled={pending}
                 >
                   <ImageIcon />
                 </button>
                 <button
                   type="button"
-                  className="tool-btn"
-                  title="Video"
-                  onClick={() => toggleTool("video")}
+                  className="tool-btn tool-btn-text"
+                  title="GIF"
+                  aria-label="GIF"
+                  onClick={() => openFilePicker("image/gif")}
                   disabled={pending}
                 >
-                  <VideoIcon />
+                  GIF
                 </button>
                 <button
                   type="button"
@@ -275,7 +400,7 @@ export default function ThreadComposer({
           )}
           <div className="composer-actions">
             <span className="pill">
-              {errors.text ? errors.text.message : "Até 1000 caracteres"}
+              {errors.text ? errors.text.message : "Ate 1000 caracteres"}
             </span>
             <button className="btn btn-primary" disabled={pending} type="submit">
               {pending ? "Publicando..." : parentId ? "Responder" : "Publicar"}
