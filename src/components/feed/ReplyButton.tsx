@@ -8,20 +8,30 @@ type Props = {
   threadId: string;
   viewerUsername?: string | null;
   viewerImage?: string | null;
+  replyCount?: number;
 };
 
 export default function ReplyButton({
   threadId,
   viewerUsername,
   viewerImage,
+  replyCount = 0,
 }: Props) {
   const [open, setOpen] = useState(false);
+  const label = open ? "Fechar respostas" : "Responder";
 
   return (
     <div style={{ width: "100%" }}>
-      <button className="action" onClick={() => setOpen((v) => !v)}>
+      <button
+        className="action"
+        onClick={() => setOpen((v) => !v)}
+        type="button"
+        aria-label={`${label} (${replyCount})`}
+        title={label}
+        aria-expanded={open}
+      >
         <ChatBubbleIcon />
-        {open ? "Fechar" : "Responder"}
+        <span>{replyCount}</span>
       </button>
       {open && (
         <div style={{ marginTop: ".65rem" }}>

@@ -119,7 +119,7 @@ textarea:focus-visible {
     padding: 1rem 0.85rem 5.5rem;
   }
 
-  .sidebar {
+  .app-shell .sidebar {
     position: fixed;
     inset: auto 0 0;
     height: auto;
@@ -153,7 +153,7 @@ textarea:focus-visible {
     display: none;
   }
 
-  .nav-button {
+  .sidebar .nav-button {
     flex-direction: column;
     gap: 0.25rem;
     padding: 0.45rem 0.5rem;
@@ -163,7 +163,7 @@ textarea:focus-visible {
     min-height: 48px;
   }
 
-  .nav-button.active::after {
+  .sidebar .nav-button.active::after {
     content: "";
     width: 4px;
     height: 4px;
@@ -171,11 +171,11 @@ textarea:focus-visible {
     background: var(--accent);
   }
 
-  .nav-button[data-mobile="hide"] {
+  .sidebar .nav-button[data-mobile="hide"] {
     display: none;
   }
 
-  .nav-button[data-action="compose"] {
+  .sidebar .nav-button[data-action="compose"] {
     background: var(--accent);
     color: #0b0b0f;
     border-color: transparent;
@@ -186,12 +186,12 @@ textarea:focus-visible {
     transform: translateY(-12px);
   }
 
-  .nav-button svg {
+  .sidebar .nav-button svg {
     width: 22px;
     height: 22px;
   }
 
-  .nav-button[data-action="compose"] svg {
+  .sidebar .nav-button[data-action="compose"] svg {
     width: 24px;
     height: 24px;
   }
@@ -297,10 +297,10 @@ textarea:focus-visible {
     var(--card);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 18px;
-  padding: 1.25rem;
+  padding: 1rem;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.85rem;
   box-shadow: var(--shadow-soft);
   position: sticky;
   top: 1rem;
@@ -320,7 +320,7 @@ textarea:focus-visible {
   background: var(--card-strong);
   border: 1px solid rgba(255, 255, 255, 0.08);
   border-radius: 14px;
-  padding: 0.85rem;
+  padding: 0.75rem;
   transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
 }
 
@@ -348,7 +348,7 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.1rem 1.25rem;
+  padding: 0.9rem 1.05rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(10, 12, 16, 0.4);
   backdrop-filter: blur(8px);
@@ -356,15 +356,15 @@ textarea:focus-visible {
 
 .feed-header h1 {
   margin: 0;
-  font-size: 1.1rem;
+  font-size: 1.05rem;
   letter-spacing: -0.02em;
 }
 
 .composer {
   display: grid;
   grid-template-columns: 52px 1fr;
-  gap: 0.85rem;
-  padding: 1.1rem 1.25rem;
+  gap: 0.75rem;
+  padding: 0.9rem 1.05rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(17, 19, 26, 0.6);
   backdrop-filter: blur(6px);
@@ -381,13 +381,13 @@ textarea:focus-visible {
 
 .composer textarea {
   width: 100%;
-  min-height: 90px;
+  min-height: 80px;
   background: var(--card-elevated);
   border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 14px;
   color: var(--text);
   padding: 0.75rem 0.9rem;
-  font-size: 1rem;
+  font-size: 0.95rem;
   resize: vertical;
 }
 
@@ -401,14 +401,14 @@ textarea:focus-visible {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 0.45rem;
+  margin-top: 0.35rem;
 }
 
 .composer-tools {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-  margin-top: 0.45rem;
+  gap: 0.4rem;
+  margin-top: 0.35rem;
 }
 
 .tool-btn {
@@ -426,12 +426,46 @@ textarea:focus-visible {
   box-shadow: 0 8px 18px rgba(0, 0, 0, 0.25);
 }
 
+.composer-tool-input {
+  display: grid;
+  grid-template-columns: 1fr auto auto;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.composer-tool-input input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  background: var(--card-elevated);
+  color: var(--text);
+  font-size: 0.95rem;
+}
+
+.composer-tool-input input:focus {
+  outline: none;
+  border-color: rgba(110, 231, 255, 0.4);
+  box-shadow: var(--ring);
+}
+
+.composer-emoji {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.5rem;
+}
+
+.composer-emoji .tool-btn {
+  padding: 0.35rem 0.5rem;
+}
+
 .composer-launcher {
   display: grid;
   grid-template-columns: 52px 1fr auto;
   align-items: center;
-  gap: 0.85rem;
-  padding: 1rem 1.1rem;
+  gap: 0.7rem;
+  padding: 0.85rem 1rem;
   border-bottom: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(17, 19, 26, 0.65);
   cursor: pointer;
@@ -559,8 +593,8 @@ textarea:focus-visible {
 .thread-card {
   display: grid;
   grid-template-columns: 52px 1fr;
-  gap: 0.85rem;
-  padding: 1.1rem 1.25rem;
+  gap: 0.75rem;
+  padding: 0.95rem 1.05rem;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: linear-gradient(
       180deg,
@@ -569,7 +603,7 @@ textarea:focus-visible {
     ),
     var(--card);
   border-radius: 16px;
-  margin: 0.75rem 1rem;
+  margin: 0.6rem 0.85rem;
   transition: transform 0.2s ease, border-color 0.2s ease;
 }
 
@@ -599,37 +633,50 @@ textarea:focus-visible {
 .thread-username,
 .thread-time {
   color: var(--muted);
-  font-size: 0.9rem;
+  font-size: 0.85rem;
 }
 
 .thread-body {
   white-space: pre-wrap;
   word-break: break-word;
-  margin: 0.25rem 0 0.35rem;
-  font-size: 1rem;
+  margin: 0.2rem 0 0.3rem;
+  font-size: 0.95rem;
 }
 
 .thread-actions {
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 0.4rem;
   flex-wrap: wrap;
   color: var(--muted);
-  margin-top: 0.65rem;
+  margin-top: 0.5rem;
 }
 
 .action {
   display: inline-flex;
   align-items: center;
   gap: 0.35rem;
-  padding: 0.45rem 0.75rem;
+  padding: 0.4rem 0.65rem;
   border-radius: 999px;
   border: 1px solid rgba(255, 255, 255, 0.12);
   background: rgba(255, 255, 255, 0.02);
   color: inherit;
   font-weight: 600;
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   transition: all 0.2s ease;
+}
+
+.thread-actions .action {
+  padding: 0.3rem 0.55rem;
+  border-radius: 10px;
+  gap: 0.25rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+.thread-actions .action svg {
+  width: 14px;
+  height: 14px;
 }
 
 .action:hover {
@@ -1519,11 +1566,11 @@ textarea:focus-visible {
   .composer,
   .thread-card {
     grid-template-columns: 40px 1fr;
-    padding: 0.9rem;
+    padding: 0.8rem;
   }
 
   .thread-card {
-    margin: 0.6rem 0.45rem;
+    margin: 0.5rem 0.35rem;
   }
 
   .profile-section .thread-card,
@@ -1532,7 +1579,7 @@ textarea:focus-visible {
   }
 
   .composer {
-    gap: 0.65rem;
+    gap: 0.6rem;
   }
 
   .avatar {
@@ -1541,8 +1588,8 @@ textarea:focus-visible {
   }
 
   .composer textarea {
-    min-height: 72px;
-    font-size: 0.95rem;
+    min-height: 68px;
+    font-size: 0.9rem;
   }
 
   .composer-actions {
@@ -1559,18 +1606,26 @@ textarea:focus-visible {
     flex-wrap: wrap;
   }
 
+  .composer-tool-input {
+    grid-template-columns: 1fr;
+  }
+
+  .composer-tool-input .btn {
+    width: 100%;
+  }
+
   .thread-head {
     flex-wrap: wrap;
     row-gap: 0.2rem;
   }
 
   .thread-name {
-    font-size: 0.95rem;
+    font-size: 0.9rem;
   }
 
   .thread-username,
   .thread-time {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
   }
 
   .thread-time {
@@ -1578,12 +1633,12 @@ textarea:focus-visible {
   }
 
   .thread-actions {
-    gap: 0.4rem;
+    gap: 0.35rem;
   }
 
-  .action {
-    padding: 0.4rem 0.6rem;
-    font-size: 0.85rem;
+  .thread-actions .action {
+    padding: 0.25rem 0.5rem;
+    font-size: 0.75rem;
   }
 
   .reply-stack {

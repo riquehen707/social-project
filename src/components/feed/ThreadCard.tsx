@@ -70,13 +70,11 @@ export default function ThreadCard({
             initialLiked={thread.likedByMe}
             initialCount={thread._count.likes}
           />
-          <span className="action">
-            {thread._count.replies} resposta{thread._count.replies === 1 ? "" : "s"}
-          </span>
           <ReplyButton
             threadId={thread.id}
             viewerImage={viewerImage}
             viewerUsername={viewerUsername}
+            replyCount={thread._count.replies}
           />
         </div>
 
